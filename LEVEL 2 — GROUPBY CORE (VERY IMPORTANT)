@@ -1,0 +1,51 @@
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    "emp_id": [1,2,3,4,5,6,7,8,9],
+    "name": ["Alice","Bob","Charlie","David","Eva","Frank","Grace","Helen","Ian"],
+    "dept": ["IT","HR","IT","Finance","HR","IT","Finance","IT","HR"],
+    "salary": [70000,50000,60000,80000,55000,65000,75000,72000,52000],
+    "join_date": pd.to_datetime([
+        "2020-01-10","2019-06-15","2021-03-01",
+        "2018-09-20","2022-12-05","2023-02-14",
+        "2020-11-11","2021-07-07","2019-04-04"
+    ])
+})
+
+
+🟡 LEVEL 2 — GROUPBY CORE (VERY IMPORTANT)
+8️⃣ Find average salary per department
+
+average_dept=df.groupby('dept')['salary'].mean()
+print(average_dept)
+
+9️⃣ Add department average salary for each employee  // explanation: add a column indicating dept averate salary for each employee
+
+df["avegare_salary"]=df.groupby('dept')['salary'].transform('mean')    // here transform('mean') helps adding value in every row 
+print(df)
+
+🔟 Find employees earning above department average
+
+df["avegare_salary"]=df.groupby('dept')['salary'].transform('mean')
+df1=df[df['salary'] > df['avegare_salary']]
+print(df1)
+
+
+1️⃣1️⃣ Count employees in each department
+
+df1=df.groupby('dept')['name'].count()  // Solution 1
+df2=df.groupby('dept').size()           // solution 2
+print(df2)
+
+
+1️⃣2️⃣ Find department with highest average salary
+
+df2= df.groupby('dept')['salary'].mean().idxmax()    //idxmax() → returns label (department)  //max() → returns value (salary)
+print(df2)
+
+
+1️⃣3️⃣ Sort departments by total salary expense
+
+df2=df.groupby('dept')['salary'].sum().sort_values(ascending=False)
+print(df2)
